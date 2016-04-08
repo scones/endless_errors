@@ -21,8 +21,8 @@ namespace core {
 
   namespace error {
 
-    error::error(std::string const& what) {
-      log_error(what);
+    error::error(std::string const& what) : std::exception(), m_what(what) {
+      log_error(m_what);
     }
 
 
@@ -52,6 +52,11 @@ namespace core {
 #ifdef DEBUG
       std::cerr << oss.str() << std::flush;
 #endif //DEBUG
+    }
+
+
+    char const* error::what() const noexcept {
+      return (std::string("error - ") + m_what).c_str();
     }
 
   }
