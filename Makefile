@@ -19,7 +19,6 @@ MAKE           = make
 find = $(foreach dir,$(1),$(foreach d,$(wildcard $(dir)/*),$(call find,$(d),$(2))) $(wildcard $(dir)/$(strip $(2))))
 
 SOURCES_LIB       = $(call find, src, *.cpp)
-OBJECTS           = $(SOURCES:.cpp=.o)
 OBJECTS_LIB       = $(SOURCES_LIB:.cpp=.o)
 STATIC_TARGET     = lib/libendless_errors.a
 
@@ -27,7 +26,7 @@ STATIC_TARGET     = lib/libendless_errors.a
 .PHONY: all check example clean
 
 
-all: $(SOURCES) $(STATIC_TARGET) $(EXECUTABLE_TARGET) check
+all: $(SOURCES_LIB) $(STATIC_TARGET) check
 
 
 $(STATIC_TARGET): $(OBJECTS_LIB)
@@ -43,11 +42,8 @@ check: $(STATIC_TARGET)
 
 
 clean:
-	$(MAKE) -C ./test clean
-	$(MAKE) -C ./example clean
 	rm -f $(OBJECTS_LIB)
-	rm -f $(OBJECTS)
 	rm -f $(STATIC_TARGET)
-	rm -f $(EXECUTABLE_TARGET)
 	rm -f gmon.out
+	$(MAKE) -C ./tests clean
 

@@ -1,13 +1,13 @@
 CC                 = g++
 
-INCLUDES           = -I../include -Iinclude
+INCLUDES           = -I./../include -I./include
 
 CFLAGS             = $(INCLUDES) -c -Wall -pedantic -std=c++11 -finput-charset=UTF-8 -ggdb
 
-LIB_PATHS          = -Llib
+LIB_PATHS          = -L./lib -L./../lib
 LIBS_STATIC_BOOST  = -lboost_system-mt
 LIBS_SHARED_BOOST  = -lboost_unit_test_framework-mt
-LIBS_SYSTEM        =
+LIBS_SYSTEM        = -lendless_errors
 
 LIBS_STATIC        = -Wl,-Bstatic $(LIBS_SYSTEM) $(LIBS_BOOST)
 LIBS_SHARED        = -Wl,-Bdynamic $(LIBS_SHARED_BOOST)
@@ -28,9 +28,9 @@ OBJECTS_LIB        = $(SOURCES_LIB:.cpp=.o)
 
 EXECUTABLE_TARGET = 
 ifeq ($(MSYSTEM), MINGW64)
-	EXECUTABLE_TARGET = ui_test64.exe
+	EXECUTABLE_TARGET = endless_errors_test.exe
 else
-	EXECUTABLE_TARGET = ui_test64
+	EXECUTABLE_TARGET = endless_errors_test
 endif
 
 
